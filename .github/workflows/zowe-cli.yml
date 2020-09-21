@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [14.x]
         os: [windows-latest, ubuntu-latest, macos-latest]
 
     env:
@@ -57,8 +57,8 @@ jobs:
         name: ${{ matrix.os }}-${{ matrix.node-version }}-results
         path: __tests__/__results__/
 
-    - name: Upload Results to Codecov
-      if: ${{ always() && steps.build.outcome == 'success' }}
-      uses: codecov/codecov-action@v1.0.7
-      with:
-        env_vars: OS,NODE
+#    - name: Upload Results to Codecov
+#      if: ${{ always() && steps.build.outcome == 'success' }}
+#      uses: codecov/codecov-action@v1.0.7
+#      with:
+#        env_vars: OS,NODE
