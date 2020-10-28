@@ -171,7 +171,13 @@ describe("DsHandler", () => {
         expect(copyDatasetSpy).toHaveBeenLastCalledWith(
             dummySession,
             { dataSetName: toDataSetName, memberName: toMemberName },
-            { fromDataSet: { dataSetName: fromDataSetName, memberName: fromMemberName }, replace: commandParameters.arguments.replace }
+            {
+                fromDataSet: {
+                    dataSetName: fromDataSetName,
+                    memberName: fromMemberName
+                },
+                replace: commandParameters.arguments.replace
+            }
         );
         expect(response).toBe(defaultReturn);
     });
@@ -202,8 +208,16 @@ describe("DsHandler", () => {
         expect(copyDatasetSpy).toHaveBeenCalledTimes(1);
         expect(copyDatasetSpy).toHaveBeenLastCalledWith(
             dummySession,
-            { dataSetName: toDataSetName, memberName: toMemberName },
-            { fromDataSet: { dataSetName: fromDataSetName, memberName: fromMemberName }, replace: commandParameters.arguments.replace }
+            {
+                dataSetName: toDataSetName, memberName: toMemberName
+            },
+            {
+                fromDataSet: {
+                    dataSetName: fromDataSetName,
+                    memberName: fromMemberName
+                },
+                replace: commandParameters.arguments.replace
+            }
         );
         expect(response).toBe(defaultReturn);
     });
