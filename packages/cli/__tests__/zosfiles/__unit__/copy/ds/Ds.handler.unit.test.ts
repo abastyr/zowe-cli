@@ -15,7 +15,7 @@ import { ZosFilesBaseHandler } from "../../../../../src/zosfiles/ZosFilesBase.ha
 
 describe("DsHandler", () => {
     const defaultReturn: IZosFilesResponse = {
-        success        : true,
+        success: true,
         commandResponse: "THIS IS A TEST"
     };
 
@@ -80,6 +80,130 @@ describe("DsHandler", () => {
             dummySession,
             { dataSetName: toDataSetName, memberName: toMemberName },
             { fromDataSet: { dataSetName: fromDataSetName, memberName: fromMemberName } }
+        );
+        expect(response).toBe(defaultReturn);
+    });
+
+    it("should call Copy.dataSet without members with replace option as true", async () => {
+        const handler = new DsHandler();
+
+        expect(handler).toBeInstanceOf(ZosFilesBaseHandler);
+
+        const fromDataSetName = "IJKL";
+        const toDataSetName = "MNOP";
+        const replace = true;
+
+        const commandParameters: any = {
+            arguments: {
+                fromDataSetName,
+                toDataSetName,
+                replace
+            }
+        };
+
+        const dummySession = {};
+
+        const response = await handler.processWithSession(commandParameters, dummySession as any);
+
+        expect(copyDatasetSpy).toHaveBeenCalledTimes(1);
+        expect(copyDatasetSpy).toHaveBeenLastCalledWith(
+            dummySession,
+            { dataSetName: commandParameters.arguments.toDataSetName },
+            { fromDataSet: { dataSetName: commandParameters.arguments.fromDataSetName }, replace: commandParameters.arguments.replace },
+        );
+        expect(response).toBe(defaultReturn);
+    });
+
+    it("should call Copy.dataSet without members with replace option as false", async () => {
+        const handler = new DsHandler();
+
+        expect(handler).toBeInstanceOf(ZosFilesBaseHandler);
+
+        const fromDataSetName = "IJKL";
+        const toDataSetName = "MNOP";
+        const replace = false;
+
+        const commandParameters: any = {
+            arguments: {
+                fromDataSetName,
+                toDataSetName,
+                replace
+            }
+        };
+
+        const dummySession = {};
+
+        const response = await handler.processWithSession(commandParameters, dummySession as any);
+
+        expect(copyDatasetSpy).toHaveBeenCalledTimes(1);
+        expect(copyDatasetSpy).toHaveBeenLastCalledWith(
+            dummySession,
+            { dataSetName: commandParameters.arguments.toDataSetName },
+            { fromDataSet: { dataSetName: commandParameters.arguments.fromDataSetName }, replace: commandParameters.arguments.replace },
+        );
+        expect(response).toBe(defaultReturn);
+    });
+
+    it("should call Copy.dataSet with members and replace option as true", async () => {
+        const handler = new DsHandler();
+
+        expect(handler).toBeInstanceOf(ZosFilesBaseHandler);
+
+        const fromDataSetName = "IJKL";
+        const fromMemberName = "mem1";
+        const toDataSetName = "MNOP";
+        const toMemberName = "mem2";
+        const replace = true;
+
+        const commandParameters: any = {
+            arguments: {
+                fromDataSetName: `${fromDataSetName}(${fromMemberName})`,
+                toDataSetName: `${toDataSetName}(${toMemberName})`,
+                replace
+            }
+        };
+
+        const dummySession = {};
+
+        const response = await handler.processWithSession(commandParameters, dummySession as any);
+
+        expect(copyDatasetSpy).toHaveBeenCalledTimes(1);
+        expect(copyDatasetSpy).toHaveBeenLastCalledWith(
+            dummySession,
+            { dataSetName: toDataSetName, memberName: toMemberName },
+            { fromDataSet: { dataSetName: fromDataSetName, memberName: fromMemberName }, replace: commandParameters.arguments.replace }
+        );
+        expect(response).toBe(defaultReturn);
+    });
+
+    it("should call Copy.dataSet with members and replace option as false", async () => {
+        const handler = new DsHandler();
+
+        expect(handler).toBeInstanceOf(ZosFilesBaseHandler);
+
+        const fromDataSetName = "IJKL";
+        const fromMemberName = "mem1";
+        const toDataSetName = "MNOP";
+        const toMemberName = "mem2";
+        const replace = false;
+
+        const commandParameters: any = {
+            arguments: {
+                fromDataSetName: `${fromDataSetName}(${fromMemberName})`,
+                toDataSetName: `${toDataSetName}(${toMemberName})`,
+                replace
+            }
+        };
+
+        const dummySession = {};
+
+        const response = await handler.processWithSession(commandParameters, dummySession as any);
+
+        expect(copyDatasetSpy).toHaveBeenCalledTimes(1);
+        expect(copyDatasetSpy).toHaveBeenLastCalledWith(
+            dummySession,
+            { dataSetName: toDataSetName, memberName: toMemberName },
+            { fromDataSet: { dataSetName: fromDataSetName, memberName: fromMemberName }, replace: commandParameters.arguments.replace }
         );
         expect(response).toBe(defaultReturn);
     });
