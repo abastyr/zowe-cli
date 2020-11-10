@@ -7,10 +7,7 @@
     "space-within-parens": false,
     "no-var-requires": false,
     "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
-    "no-submodule-imports": [
-      true,
-      "csv-parse/lib/sync"
-    ],
+    "no-submodule-imports": true,
     "max-line-length": [
       true,
       150

@@ -43,14 +43,8 @@
     "typedocSpecifySrc": "typedoc --options ./typedoc.json"
   },
   "devDependencies": {
-    "@types/node": "^12.12.24",
-    "@zowe/core-for-zowe-sdk": "6.24.4",
-    "@zowe/imperative": "4.8.1",
-    "madge": "^3.6.0",
-    "rimraf": "^2.6.3",
-    "tslint": "^6.1.3",
-    "typedoc": "^0.16.0",
-    "typescript": "^3.8.0"
+    "@zowe/core-for-zowe-sdk": "file:../core",
+    "@zowe/imperative": "4.8.1"
   },
   "peerDependencies": {
     "@zowe/core-for-zowe-sdk": "^6.24.1",
