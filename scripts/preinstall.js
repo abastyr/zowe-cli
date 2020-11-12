@@ -12,7 +12,7 @@
 // Ensure that packages/cli/lib/main.js exists for monorepo postinstall
 const fs = require("fs");
 
-const libDir = __dirname + "/../lib";
+const libDir = __dirname + "/../packages/cli/lib";
 if (!fs.existsSync(libDir)) {
     fs.mkdirSync(libDir);
 }

@@ -48,7 +48,7 @@
     "@zowe/zos-files-for-zowe-sdk": "file:../zosfiles"
   },
   "devDependencies": {
-    "@zowe/core-for-zowe-sdk": "file:../core",
+    "@zowe/core-for-zowe-sdk": "file:../core"
   },
   "peerDependencies": {
     "@zowe/core-for-zowe-sdk": "^6.24.1",
