@@ -1,6 +1,6 @@
 {
   "name": "@zowe/zos-tso-for-zowe-sdk",
-  "version": "6.24.4",
+  "version": "6.24.5",
   "description": "Zowe SDK to interact with TSO on z/OS",
   "author": "Broadcom",
   "license": "EPL-2.0",
@@ -47,8 +47,7 @@
     "@zowe/zosmf-for-zowe-sdk": "file:../zosmf"
   },
   "devDependencies": {
-    "@zowe/core-for-zowe-sdk": "file:../core",
-    "@zowe/imperative": "4.8.1"
+    "@zowe/core-for-zowe-sdk": "file:../core"
   },
   "peerDependencies": {
     "@zowe/core-for-zowe-sdk": "^6.24.1",

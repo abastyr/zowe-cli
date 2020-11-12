@@ -2,11 +2,12 @@
   "packages": [
     "packages/*"
   ],
-  "version": "6.24.4",
+  "version": "6.24.5",
   "command": {
     "publish": {
       "ignoreChanges": [
-        "**/__tests__/**"
+        "**/__tests__/**",
+        "packages/**/package-lock.json"
       ]
     }
   }

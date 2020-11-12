@@ -1,6 +1,6 @@
 {
   "name": "@zowe/zosmf-for-zowe-sdk",
-  "version": "6.24.4",
+  "version": "6.24.5",
   "description": "Zowe SDK to interact with the z/OS Management Facility",
   "author": "Broadcom",
   "license": "EPL-2.0",
@@ -43,8 +43,7 @@
     "typedocSpecifySrc": "typedoc --options ./typedoc.json"
   },
   "devDependencies": {
-    "@zowe/core-for-zowe-sdk": "file:../core",
-    "@zowe/imperative": "4.8.1"
+    "@zowe/core-for-zowe-sdk": "file:../core"
   },
   "peerDependencies": {
     "@zowe/core-for-zowe-sdk": "^6.24.1",

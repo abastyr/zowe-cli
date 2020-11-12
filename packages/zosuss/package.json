@@ -1,6 +1,6 @@
 {
   "name": "@zowe/zos-uss-for-zowe-sdk",
-  "version": "6.24.4",
+  "version": "6.24.5",
   "description": "Zowe SDK to interact with USS on z/OS",
   "author": "Broadcom",
   "license": "EPL-2.0",
@@ -45,9 +45,6 @@
   },
   "dependencies": {
     "ssh2": "0.8.7"
-  },
-  "devDependencies": {
-    "@zowe/imperative": "4.8.1"
   },
   "peerDependencies": {
     "@zowe/imperative": "^4.8.1"
