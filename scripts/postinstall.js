@@ -11,7 +11,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const glob = require("glob");
+const { spawnSync } = require("child_process");
 const symlinkBinary = require("@lerna/symlink-binary");
 
 process.chdir(__dirname + "/..");
@@ -26,11 +26,18 @@ if (packageJson.devDependencies == null) {
     process.exit();
 }
 
-for (const pkgDir of glob.sync("packages/*")) {
-    for (const pkgName in packageJson.devDependencies) {
-        if (!packageJson.devDependencies[pkgName].startsWith("file:")) {
-            symlinkBinary(path.resolve(nodeModulesDir, pkgName),
-                path.resolve(pkgDir));
+(async () => {
+    const cmdOutput = spawnSync("lerna list --json --loglevel silent",
+        { shell: true }).stdout.toString();
+    for (const pkgInfo of JSON.parse(cmdOutput)) {
+        for (const pkgName in packageJson.devDependencies) {
+            if (!packageJson.devDependencies[pkgName].startsWith("file:")) {
+                await symlinkBinary(path.resolve(nodeModulesDir, pkgName),
+                    path.resolve(pkgInfo.location));
+            }
         }
     }
-}
+})().catch((error) => {
+    console.error(error);
+    process.exit(1);
+})
