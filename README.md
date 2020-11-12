@@ -66,7 +66,7 @@ When you update `package.json` to include new dependencies, or when you pull cha
 From your copy of this repository, after a build, issue the following command to install Zowe CLI from source:
 
 ```
-npm install -g
+npm install -g packages/cli
 ```
 
 <b>Notes:</b>

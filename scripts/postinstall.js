@@ -9,6 +9,7 @@
 *
 */
 
+// Create symlinks to binaries so that NPM scripts in subpackages can use them
 const fs = require("fs");
 const path = require("path");
 const { spawnSync } = require("child_process");
