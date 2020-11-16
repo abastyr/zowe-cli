@@ -23,26 +23,47 @@ if (!fs.existsSync(nodeModulesDir)) {
     process.exit();
 }
 
+/**
+ * Creates a sequence of symlinks that allow monorepo subpackages to share
+ * common dependencies and the CLI to be globally installed from source.
+ *   `packages/<pkgName>/node_modules/<depName>`
+ *    -> `packages/cli/node_modules/<depName>`
+ *    -> `packages/node_modules/<depName>`
+ * @param {*} pkgDeps Dependency list from package.json of a dependency
+ * @param {*} subPkgLocation Relative path of monorepo subpackage
+ */
+function symlinkDependencies(pkgDeps, subPkgLocation) {
+    for (const pkgName in (pkgDeps || {})) {
+        if (!pkgDeps[pkgName].startsWith("file:")) {
+            const depDir = path.resolve("packages/cli", nodeModulesDir, pkgName);
+            const depParentDir = path.dirname(depDir);
+            if (!fs.existsSync(depParentDir)) {
+                fs.mkdirSync(depParentDir, { recursive: true });
+            }
+            if (!fs.existsSync(depDir)) {
+                fs.symlinkSync(path.resolve(nodeModulesDir, pkgName), depDir, "junction");
+            }
+            const depDir2 = path.resolve(subPkgLocation, nodeModulesDir, pkgName);
+            const depParentDir2 = path.dirname(depDir2);
+            if (!fs.existsSync(depParentDir2)) {
+                fs.mkdirSync(depParentDir2, { recursive: true });
+            }
+            if (!fs.existsSync(depDir2)) {
+                fs.symlinkSync(depDir, depDir2, "junction");
+            }
+            const depPkgJson = require(path.resolve(nodeModulesDir, pkgName, "package.json"));
+            symlinkDependencies(depPkgJson.dependencies, subPkgLocation);
+        }
+    }
+}
+
 (async () => {
     const cmdOutput = spawnSync("lerna list --json --loglevel silent", { shell: true }).stdout.toString();
     const packageJson = require(path.resolve("package.json"));
 
     for (const pkgInfo of JSON.parse(cmdOutput)) {
         const subPkgJson = require(path.resolve(pkgInfo.location, "package.json"));
-        const subPkgDeps = subPkgJson.dependencies || {};
-
-        for (const pkgName in (packageJson.dependencies || {})) {
-            if (!packageJson.dependencies[pkgName].startsWith("file:") && subPkgDeps[pkgName] != null) {
-                const depDir = path.resolve(pkgInfo.location, nodeModulesDir, pkgName);
-                const depParentDir = path.dirname(depDir);
-                if (!fs.existsSync(depParentDir)) {
-                    fs.mkdirSync(depParentDir, { recursive: true });
-                }
-                if (!fs.existsSync(depDir)) {
-                    fs.symlinkSync(path.resolve(nodeModulesDir, pkgName), depDir, "junction");
-                }
-            }
-        }
+        symlinkDependencies(subPkgJson.dependencies, pkgInfo.location);
 
         for (const pkgName in (packageJson.devDependencies || {})) {
             if (!packageJson.devDependencies[pkgName].startsWith("file:")) {
